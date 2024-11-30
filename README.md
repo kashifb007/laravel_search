@@ -14,6 +14,10 @@ Then use the supplied bearer token in the next POST request to https://search.pr
 
 Simply supply a parameter named **query** with a search term, **ipad** for example.
 
+You can also supply an optional parameter **sort** which is either 'asc' or 'desc'
+This will sort by price.
+Finally you may supply a third parameter **offSet** which is an integer.
+
 If the data is in the database you will receive matching products.
 
 The VueJS front end is still under development.
