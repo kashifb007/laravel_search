@@ -12,7 +12,7 @@ Provide these 2 parameters as form data to authenticate.
 
 Then use the supplied bearer token in the next POST request to https://search.preview1.co.uk/api/search
 
-Simply supply a parameter named **query** with a search term, **ipad** for example.
+Simply supply a parameter named **query** with a search term, **ipad** for example or any other computer hardware related terms such as memory, hard drive, apple, macbook.
 
 You can also supply an optional parameter **sort** which is either 'asc' or 'desc'
 This will sort by price.
