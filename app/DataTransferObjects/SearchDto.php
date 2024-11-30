@@ -2,7 +2,6 @@
 
 namespace App\DataTransferObjects;
 
-use App\Enums\SortType;
 use App\Http\Requests\SearchRequest;
 
 class SearchDto
@@ -10,7 +9,7 @@ class SearchDto
     public function __construct(
         public string $query,
         public int $offSet,
-        public ?SortType $sort = null,
+        public ?string $sort = null,
     ) {}
 
     public static function fromAppRequest(SearchRequest $request): self
