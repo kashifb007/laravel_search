@@ -1,6 +1,47 @@
-<script setup>
-
-defineExpose({
+<template>
+    <div class="search__container" v-click_outside="hide">
+        <form class="form__container">
+            <input type="text" placeholder="Search" id="query" name="query" v-on:input="debounceInput"
+                   v-on:click="show"
+                   v-on:keydown.esc="hide"
+                   class="search__input" />
+            <div class="actions">
+                <button title="Clear" class="action__button button--type-clear">
+                    <i class="fas fa-times"></i>
+                </button>
+                <button type="submit" title="Search" class="action__button button--type-search">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
+        <div class="loading" v-if="loading"><img src="/image/loading.gif" alt="loading" title="loading" /></div>
+        <div v-if="!nodata" class="search__results" v-bind:class="{active: isActive}" tabindex="-1" v-on:keydown.esc="hide">
+            <div class="search__legend">
+                <div class="search__display-mode">
+                    <a href="#" class="search__toggle-link link_mode_grid active" v-on:click="toggleDataMode('grid')" title="Grid View"><i class="fas fa-th"></i></a>
+                    <a href="#" class="search__toggle-link link_mode_list" v-on:click="toggleDataMode('list')" title="List View"><i class="fas fa-list"></i></a>
+                </div>
+                <div class="search__display-sort">
+                    <a href="#" class="search__toggle-link link_sort_relevance active" v-on:click="toggleDataSort('relevance')" title="Relevance"><i class="fas fa-redo"></i></a>
+                    <a href="#" class="search__toggle-link link_sort_asc" v-on:click="toggleDataSort('asc')" title="Price Asc"><i class="fas fa-chevron-up"></i></a>
+                    <a href="#" class="search__toggle-link link_sort_desc" v-on:click="toggleDataSort('desc')" title="Price Desc"><i class="fas fa-chevron-down"></i></a>
+                </div>
+            </div>
+            <div class="search__wrapper" v-on:scroll="scroll" data-mode="grid">
+                <div v-for="row in allData" class="search__results-item">
+                    <search-image
+                        v-bind:item_name="row.name"
+                        v-bind:item_desc="row.description"
+                        v-bind:item_image="row.image"
+                        v-bind:item_price="row.price"
+                    ></search-image>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+export default {
     directives: {
         click_outside: {
             bind: function (el, binding, vnode) {
@@ -128,47 +169,5 @@ defineExpose({
             }
         },
     }
-})
+}
 </script>
-<template>
-    <div class="search__container" v-click_outside="hide">
-        <form class="form__container">
-            <input type="text" placeholder="Search" id="query" name="query" v-on:input="debounceInput"
-                   v-on:click="show"
-                   v-on:keydown.esc="hide"
-                   class="search__input" />
-            <div class="actions">
-                <button title="Clear" class="action__button button--type-clear">
-                    <i class="fas fa-times"></i>
-                </button>
-                <button type="submit" title="Search" class="action__button button--type-search">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-        </form>
-        <div class="loading" v-if="loading"><img src="/image/loading.gif" alt="loading" title="loading" /></div>
-        <div v-if="!nodata" class="search__results" v-bind:class="{active: isActive}" tabindex="-1" v-on:keydown.esc="hide">
-            <div class="search__legend">
-                <div class="search__display-mode">
-                    <a href="#" class="search__toggle-link link_mode_grid active" v-on:click="toggleDataMode('grid')" title="Grid View"><i class="fas fa-th"></i></a>
-                    <a href="#" class="search__toggle-link link_mode_list" v-on:click="toggleDataMode('list')" title="List View"><i class="fas fa-list"></i></a>
-                </div>
-                <div class="search__display-sort">
-                    <a href="#" class="search__toggle-link link_sort_relevance active" v-on:click="toggleDataSort('relevance')" title="Relevance"><i class="fas fa-redo"></i></a>
-                    <a href="#" class="search__toggle-link link_sort_asc" v-on:click="toggleDataSort('asc')" title="Price Asc"><i class="fas fa-chevron-up"></i></a>
-                    <a href="#" class="search__toggle-link link_sort_desc" v-on:click="toggleDataSort('desc')" title="Price Desc"><i class="fas fa-chevron-down"></i></a>
-                </div>
-            </div>
-            <div class="search__wrapper" v-on:scroll="scroll" data-mode="grid">
-                <div v-for="row in allData" class="search__results-item">
-                    <search-image
-                        v-bind:item_name="row.name"
-                        v-bind:item_desc="row.description"
-                        v-bind:item_image="row.image"
-                        v-bind:item_price="row.price"
-                    ></search-image>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
