@@ -4,10 +4,9 @@ namespace App\Repositories;
 
 use App\DataTransferObjects\SearchDto;
 use App\Enums\SortType;
-use App\Interfaces\SearchInterface;
 use App\Models\Product;
 
-class SearchRepository implements SearchInterface
+class SearchRepository
 {
     public function search(SearchDto $dto): array
     {
