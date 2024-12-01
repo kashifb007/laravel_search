@@ -11,6 +11,19 @@ test('no query validation error', function () {
     $response->assertStatus(302); // validation failed
 });
 
+test('api test with authentication', function () {
+    $user = \App\Models\User::find(1);
+
+    $response = $this->actingAs($user)
+        ->post('/api/search', [
+            'query' => 'ipad',
+            'sort' => 'asc',
+            'offSet' => 0,
+        ]);
+
+    $response->assertStatus(200);
+});
+
 test('search returns data', function () {
     $repository = new \App\Repositories\SearchRepository;
     $action = new \App\Actions\Search($repository);
