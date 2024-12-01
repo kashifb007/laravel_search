@@ -1,4 +1,5 @@
 <?php
+
 uses(Tests\TestCase::class);
 
 test('no query validation error', function () {

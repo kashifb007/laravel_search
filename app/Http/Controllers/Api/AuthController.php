@@ -10,19 +10,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
-
     /**
      * API Login
-     * @param LoginUserRequest $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function __invoke(LoginUserRequest $request)
     {
         $request->validated($request->all());
 
-        if (!Auth::attempt($request->only('email', 'password'))) {
+        if (! Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
-                'message' => 'Invalid credentials'
+                'message' => 'Invalid credentials',
             ], Response::HTTP_UNAUTHORIZED);
         }
 
@@ -30,9 +29,8 @@ class AuthController extends Controller
         $user = User::firstWhere('email', $request->email);
 
         return response()->json([
-                'message' => 'Success',
-                'token' => $user->createToken('API token for ' . $user->email)->plainTextToken
-            ], Response::HTTP_OK
-        );
+            'message' => 'Success',
+            'token' => $user->createToken('API token for '.$user->email)->plainTextToken,
+        ], Response::HTTP_OK);
     }
 }

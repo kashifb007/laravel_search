@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Models\Product;
-use http\Message;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -41,7 +40,7 @@ class ImportProducts extends Command
             try {
                 DB::beginTransaction();
 
-                $newProduct = new Product();
+                $newProduct = new Product;
                 $newProduct->name = $product->name;
                 $newProduct->description = $product->description;
                 $newProduct->price = $product->price;

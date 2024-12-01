@@ -17,6 +17,7 @@ class SearchResource extends JsonResource
         if (count($this->resource) === 0) {
             return [];
         }
+
         return $this->resource;
     }
 }

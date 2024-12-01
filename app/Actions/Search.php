@@ -3,11 +3,11 @@
 namespace App\Actions;
 
 use App\DataTransferObjects\SearchDto;
-use App\Repositories\SearchRepository;
+use App\Interfaces\SearchInterface;
 
 readonly class Search
 {
-    public function __construct(private SearchRepository $repository) {}
+    public function __construct(private SearchInterface $repository) {}
 
     public function handle(SearchDto $dto): array
     {
