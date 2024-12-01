@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\LoginUserRequest;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -13,9 +14,10 @@ class AuthController extends Controller
     /**
      * API Login
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @param LoginUserRequest $request
+     * @return JsonResponse
      */
-    public function __invoke(LoginUserRequest $request)
+    public function __invoke(LoginUserRequest $request): JsonResponse
     {
         $request->validated($request->all());
 

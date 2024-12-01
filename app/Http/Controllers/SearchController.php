@@ -13,10 +13,11 @@ class SearchController extends Controller
     /**
      * API or App Search for products
      *
-     * @param  Search  $action
+     * @param SearchRequest $request
+     * @param SearchRepository $repository
      * @return SearchResource
      */
-    public function __invoke(SearchRequest $request, SearchRepository $repository)
+    public function __invoke(SearchRequest $request, SearchRepository $repository): SearchResource
     {
         $action = new Search($repository);
         $data = $action->handle(SearchDto::fromAppRequest($request));
