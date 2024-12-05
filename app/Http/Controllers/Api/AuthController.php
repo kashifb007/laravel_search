@@ -13,9 +13,6 @@ class AuthController extends Controller
 {
     /**
      * API Login
-     *
-     * @param LoginUserRequest $request
-     * @return JsonResponse
      */
     public function __invoke(LoginUserRequest $request): JsonResponse
     {

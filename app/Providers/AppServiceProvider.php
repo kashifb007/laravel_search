@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Interfaces\SearchInterface;
+use App\Repositories\SearchRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        if (config('database.default') === 'mysql') {
+            $this->app->bind(SearchInterface::class, SearchRepository::class);
+        }
     }
 }
