@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (config('database.default') === 'mysql') {
+        if (config('database.default', 'mysql') === 'mysql') {
             $this->app->bind(SearchInterface::class, SearchRepository::class);
         }
     }
