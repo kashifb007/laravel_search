@@ -8,9 +8,7 @@ import { createApp } from 'vue';
  */
 
 import SearchImageList from './components/SearchImageList.vue';
-import SearchImage from './components/SearchImage.vue';
 
 createApp({})
     .component('SearchImageList', SearchImageList)
-    .component('SearchImage', SearchImage)
     .mount('#searchApp')

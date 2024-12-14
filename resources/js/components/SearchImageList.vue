@@ -1,9 +1,9 @@
 <template>
     <div
         class="search__container"
-        v-click_outside="hide"
+        v-click-outside="hide"
     >
-        <form class="form__container">
+        <form class="form__container form minisearch">
             <input
                 type="text"
                 placeholder="Search"
@@ -12,19 +12,23 @@
                 v-on:input="debounceInput"
                 v-on:click="show"
                 v-on:keydown.esc="hide"
+                v-model="query"
                 class="search__input"
             />
             <div class="actions">
                 <button
+                    type="button"
+                    v-if="query !== ''"
+                    v-on:click="clear"
                     title="Clear"
-                    class="action__button button--type-clear"
+                    class="action__button action__button_type_clear"
                 >
                     <i class="fas fa-times"></i>
                 </button>
                 <button
                     type="submit"
                     title="Search"
-                    class="action__button button--type-search"
+                    class="action__button action__button_type_search"
                 >
                     <i class="fas fa-search"></i>
                 </button>
@@ -107,21 +111,15 @@
     </div>
 </template>
 <script>
+import SearchImage from './SearchImage.vue';
+import vClickOutside from 'click-outside-vue3'
+
 export default {
+    components: {
+        'search-image': SearchImage
+    },
     directives: {
-        click_outside: {
-            bind: function (el, binding, vnode) {
-                this.event = function (event) {
-                    if (!(el === event.target || el.contains(event.target))) {
-                        vnode.context[binding.expression](event);
-                    }
-                };
-                document.body.addEventListener('click', this.event)
-            },
-            unbind: function (el) {
-                document.body.removeEventListener('click', this.event)
-            },
-        }
+      clickOutside: vClickOutside.directive
     },
     data: () => ({
         allData: [],
@@ -146,10 +144,10 @@ export default {
                 formData.append('sort', params["sort"]);
             }
             axios.post('/search', formData, {}).then((response) => {
-                if (response.data.length > 0) {
-                    let thisLength = response.data.length;
+                if (response.data['data'].length > 0) {
+                  let thisLength = response.data['data'].length;
                     for (let i = 0; i < thisLength; i++) {
-                        this.allData.push(response.data[i]);
+                        this.allData.push(response.data['data'][i]);
                     }
                     this.isActive = true;
                     this.nodata = false;
@@ -158,8 +156,17 @@ export default {
                     this.loading = false;
                     this.allData = [];
                     this.nodata = true;
+                    this.offset = 0;
                 }
             });
+        },
+        clear() {
+          this.isActive =false;
+          this.query = '';
+          this.nodata = true;
+          this.loading = false;
+          this.allData = [];
+          this.offset = 0;
         },
         loadMore() {
             this.loading = true;
@@ -169,10 +176,10 @@ export default {
             formData.append('offSet', this.offSet);
             formData.append('sort', this.dataSort);
             axios.post('/search', formData, {}).then((response) => {
-                if (response.data.length > 0) {
-                    let thisLength = response.data.length;
+                if (response.data['data'].length > 0) {
+                    let thisLength = response.data['data'].length;
                     for (let i = 0; i < thisLength; i++) {
-                        this.allData.push(response.data[i]);
+                        this.allData.push(response.data['data'][i]);
                     }
                     this.nodata = false;
                     this.loading = false;
@@ -180,19 +187,21 @@ export default {
             });
         },
         debounceInput: _.debounce(function (e) {
-            this.query = e.target.value;
-            if (this.query.length > 2) {
-                this.search();
-            } else {
-                this.allData = [];
-                this.nodata = true;
-            }
+          this.query = e.target.value;
+          if (this.query.length <= 2) {
+            this.nodata = true;
+            this.loading = false;
+            this.allData = [];
+            this.offset = 0;
+          } else {
+            this.search();
+          }
         }, 1500),
         scroll: function (e) {
             var scrollBar = e.target;
             if ((scrollBar.scrollTop + scrollBar.clientHeight >= scrollBar.scrollHeight - 20)) {
                 var t = new Date().getTime();
-                if ((t - this.lastScrollUpdate) > 3000) {
+                if ((t - this.lastScrollUpdate) > 1000) {
                     this.lastScrollUpdate = t;
                     this.loadMore();
                 }
