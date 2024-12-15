@@ -26,8 +26,8 @@
                     <i class="fas fa-times"></i>
                 </button>
                 <button
-                    type="submit"
                     title="Search"
+                    v-on:click="search"
                     class="action__button action__button_type_search"
                 >
                     <i class="fas fa-search"></i>

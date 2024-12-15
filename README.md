@@ -23,4 +23,4 @@ Finally you may supply a third parameter **offSet** which is an integer.
 
 If the data is in the database you will receive matching products.
 
-The VueJS front end to search products is still under development but there is a similar demo in vue2 available on a magento site at https://magento.preview1.co.uk
+To test the VueJS front end, visit https://search.preview1.co.uk/
