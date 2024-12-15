@@ -15,7 +15,7 @@ Then use the supplied bearer token in the next POST request to https://search.pr
 Simply supply a parameter 
 - **query**: ipad 
 
-or any other computer hardware related terms such as memory, hard drive, apple, macbook.
+or any other computer hardware related terms such as monitor, speaker, memory, hard drive, apple, macbook.
 
 You can also supply an optional parameter **sort** which is either 'asc' or 'desc'
 This will sort by price.
